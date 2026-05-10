@@ -1,8 +1,8 @@
-# proyecto
+# ECG_SpineForce
 
 Aplicación móvil desarrollada en Flutter para el monitoreo en tiempo real de la actividad eléctrica del corazón mediante un sensor ECG AD8232 conectado a un microcontrolador ESP32, comunicados a través de WiFi.
 
-## Getting Started
+## Descripción de la app
 
 La aplicación permite visualizar la señal ECG en tiempo real, calcular la frecuencia cardíaca (BPM) mediante detección de complejos QRS y emitir recomendaciones personalizadas de salud cardiovascular basadas en el perfil demográfico del usuario (edad, sexo, act. física).
 
