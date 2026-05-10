@@ -35,9 +35,9 @@ La aplicación posee cuatro pantallas. Al inicializar la app se muestra el logo 
    configuración del triángulo de Einthoven.
 2. El ESP32 digitaliza la señal y la transmite por WiFi al celular mediante 
    un socket TCP en la IP de la red y el puerto específico del microcontrolador.
-3. La app Flutter recibe los datos, filtra valores y grafica en tiempo real una ventana     deslizante actualizada cada `3 muestras`.
-4. Se detectan los picos QRS usando un umbral dinámico sobre un buffer de `200 muestras`, con un tiempo mínimo de `0.3 segundos` entre picos para evitar doble detección.
-5. El BPM se calcula promediando los últimos `8 intervalos RR` válidos durante una medición de `15 segundos`.
+3. La app Flutter recibe los datos, filtra valores y grafica en tiempo real una ventana     deslizante actualizada cada 3 muestras.
+4. Se detectan los picos QRS usando un umbral dinámico sobre un buffer de 200 muestras, con un tiempo mínimo de 0.3 segundos entre picos para evitar doble detección.
+5. El BPM se calcula promediando los últimos 8 intervalos RR válidos durante una medición de 15 segundos.
 6. Se genera una recomendación personalizada basada en el perfil 
    demográfico del usuario y su frecuencia cardíaca promedio medida.
 
@@ -49,40 +49,40 @@ en el puerto deseado, con un timeout de 10 segundos. Si la conexión se pierde,
 intenta reconectarse automáticamente después de 2 segundos.
 
 ### Recepción y filtrado de datos
-Los datos llegan como strings separados por `\n`, se parsean a `double` 
-y se descartan valores fuera del rango `100–3300 mV`. Cada muestra válida 
-incrementa un contador de tiempo en `0.05` segundos (equivalente a 20 Hz 
+Los datos llegan como strings separados por \n, se parsean a double 
+y se descartan valores fuera del rango 100–3300 mV. Cada muestra válida 
+incrementa un contador de tiempo en 0.05 segundos (equivalente a 20 Hz 
 de muestreo efectivo). La señal se almacena en un buffer de máximo 
-`200 muestras`.
+200 muestras.
 
 ### Detección de complejos QRS
-Con un mínimo de `20 muestras` en el buffer, se calcula un umbral dinámico:
+Con un mínimo de 20 muestras en el buffer, se calcula un umbral dinámico:
 
 umbral = min + (max - min) * 0.5
 
 Se detecta un pico QRS cuando:
 - La muestra actual supera el umbral
 - Es mayor que las 2 muestras anteriores
-- La diferencia con la muestra previa es mayor a `50 mV`
-- Han pasado al menos `0.3 segundos` desde el último pico
+- La diferencia con la muestra previa es mayor a 50 mV
+- Han pasado al menos 0.3 segundos desde el último pico
 
 ### Cálculo de BPM
-Se almacenan los últimos `8 intervalos RR`. Solo se aceptan intervalos 
-menores a `2.0 segundos` (descartar arritmias extremas). El BPM se calcula 
+Se almacenan los últimos 8 intervalos RR. Solo se aceptan intervalos 
+menores a 2.0 segundos (descartar arritmias extremas). El BPM se calcula 
 con:
 
 BPM = 60 / promedio_RR
 
-Se requieren mínimo `2 intervalos RR` para comenzar a calcular.
+Se requieren mínimo 2 intervalos RR para comenzar a calcular.
 
 ### Gráfica en tiempo real
-Se usa `fl_chart` con una ventana deslizante de `100 puntos`. La gráfica 
-se actualiza cada `3 muestras`. El eje Y va de `1000` a `3200 mV` con líneas de grilla cada `500 unidades`. El eje X nmantiene su medida predeterminada.
+Se usa fl_chart con una ventana deslizante de 100 puntos. La gráfica 
+se actualiza cada 3 muestras. El eje Y va de 1000 a 3200 mV con líneas de grilla cada 500 unidades. El eje X nmantiene su medida predeterminada.
 
 ### Medición de 15 segundos
 Al presionar el botón, se reinician los intervalos RR y el BPM, se espera 
-`15 segundos` con `Future.delayed`, se guarda el `_bpmActual` en 
-`widget.patient.bpmPromedio` y se navega a `ResultScreen`.
+15 segundos con Future.delayed, se guarda el _bpmActual en 
+widget.patient.bpmPromedio y se navega a ResultScreen.
 
 ## Requisitos
 
