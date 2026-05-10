@@ -30,13 +30,11 @@ La aplicación posee cuatro pantallas. Al inicializar la app se muestra el logo 
 
 ## ¿Cómo funciona la aplicación?
 
-El sistema integra hardware y software de forma completa:
-
 1. El sensor AD8232 adquiere la señal eléctrica del corazón mediante 
-   3 electrodos superficiales acomodados anatómicamente de acuerdo al 
-   triángulo de Einthoven.
+   3 electrodos superficiales posicionados anatómicamente de acuerdo a la 
+   configuración del triángulo de Einthoven.
 2. El ESP32 digitaliza la señal y la transmite por WiFi al celular mediante 
-   un socket TCP en la IP y puerto.
+   un socket TCP en la IP de la red y el puerto específico del microcontrolador.
 3. La app Flutter recibe los datos, filtra valores y grafica en tiempo real una ventana     deslizante actualizada cada `3 muestras`.
 4. Se detectan los picos QRS usando un umbral dinámico sobre un buffer de `200 muestras`, con un tiempo mínimo de `0.3 segundos` entre picos para evitar doble detección.
 5. El BPM se calcula promediando los últimos `8 intervalos RR` válidos durante una medición de `15 segundos`.
